@@ -1,0 +1,8 @@
+name: DisableRespawnAnchors
+version: '${version}'
+main: xyz.joscodes.disablerespawnanchors.DisableRespawnAnchors
+api-version: 1.16
+prefix: DisableRespawnAnchors
+authors: [ Jos ]
+description: Simple plugin that disables Respawn Anchors
+website: https://joscodes.xyz/
