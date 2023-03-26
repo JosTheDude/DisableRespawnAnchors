@@ -1,12 +1,8 @@
 package xyz.joscodes.disablerespawnanchors;
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.joscodes.disablerespawnanchors.events.RespawnAnchorExplosion;
 
 public class DisableRespawnAnchors extends JavaPlugin implements Listener {
 
@@ -14,27 +10,13 @@ public class DisableRespawnAnchors extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
+		// Load configuration values
 		saveDefaultConfig();
-		reloadConfig();
-		getServer().getPluginManager().registerEvents(this, this);
-	}
+		disableExplosions = getConfig().getBoolean("disable-explosions", true);
 
-	@Override
-	public void reloadConfig() {
-		super.reloadConfig();
-		FileConfiguration config = getConfig();
-		disableExplosions = config.getBoolean("disable-respawn-anchor-explosions", true);
-	}
+		// Register event listener
+		getServer().getPluginManager().registerEvents(new RespawnAnchorExplosion(), this);
 
-	@EventHandler
-	public void onBlockExplode(BlockExplodeEvent event) {
-		if (disableExplosions) {
-			for (Block block : event.blockList()) {
-				if (block.getType() == Material.RESPAWN_ANCHOR) {
-					event.setCancelled(true);
-					break;
-				}
-			}
-		}
+
 	}
 }
